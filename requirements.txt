@@ -1,0 +1,5 @@
+pandas
+tabulate
+tiktoken
+tqdm
+xlsxwriter

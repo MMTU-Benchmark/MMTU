@@ -1,0 +1,9 @@
+{
+    "exclude": [
+        "venv",
+        ".git",
+        "data",
+        "resources",
+        "datasets_prompt"
+    ]
+}

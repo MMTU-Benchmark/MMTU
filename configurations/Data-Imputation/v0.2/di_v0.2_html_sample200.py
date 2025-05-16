@@ -1,0 +1,29 @@
+from utils.table_serializer import HTMLSerializer
+from utils.table_processor import ShuffleRowsProcessor, FirstNRowsProcessor
+
+prompt_template = """Please fill in the missing value in the input table. The missing value is denoted by '[MISSING]'. Please only return the value filled in. Do not return the whole table.
+
+No explanation, return the value filled in JSON format: {"value": "filled_value"}. 
+
+Input Table:
+{{{input_table}}}
+
+"""
+
+
+dataset_config = {
+    "task": "Data-Imputation",
+    "version": "0.2_sample200_html",
+    "tag": ["0.2_sample200_html"],
+    # "note": "Data-Imputation. Sample 1000 test cases for each dataset.",
+    "path": "/datadrive/junjie/TableBenchmarkSurvey/data/Data-Imputation/sample200-3shots",
+    "info": "info.json",
+    "fields": {
+        "input_table": {
+            "type": "table.csv",
+            "path": "data.csv",
+            "reader": "pandas",
+            "serializer": HTMLSerializer
+        }
+    }
+}
