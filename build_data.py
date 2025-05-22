@@ -218,7 +218,9 @@ def process_case(args):
         
         try:
             prompt = process(template, fields_config, info, case_path)
-
+            mmtu_home = os.environ["MMTU_HOME"]
+            case_dir = case_dir.replace(mmtu_home, "$MMTU_HOME")
+            case_path = case_path.replace(mmtu_home, "$MMTU_HOME")
             metadata = {
                 "task": dataset_config["task"],
                 "version": dataset_config["version"],
@@ -312,7 +314,7 @@ def build_data(config_file, num_workers=cpu_count(), debug=False, token_limit=64
     # df_prompts = parallelize_dataframe(df_prompts, parallelize_token_count, num_processes=num_workers)
     # df_prompts["token_count"] = multiprocess_token_count(df_prompts["prompt"].tolist(), num_processes=num_workers)
     # df_prompts["token_count"] = count_tokens_mp(df_prompts["prompt"].tolist(), num_processes=num_workers)
-    df_prompts["token_count"] = df_prompts["prompt"].progress_apply(lambda x: count_tokens(x, model="gpt-4o"))
+    df_prompts["token_count"] = df_prompts["prompt"].progress_apply(lambda x: count_tokens(x, model="gpt-35-turbo"))
 
     # Split DataFrame
     valid_df = df_prompts[df_prompts["token_count"] <= token_limit].copy()

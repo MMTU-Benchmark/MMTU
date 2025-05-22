@@ -17,17 +17,22 @@ class DataTransformReshapeEvaluator(BaseEvaluator):
     def extract_json_answer(self, text, answer_key):
         pattern = r'{[^}]*}'  # Regex pattern to match strings inside curly braces while keeping the braces
         matches = re.findall(pattern, text)
+        rst = []
         for match in matches:
             try:
                 result = json.loads(match)
-                return result
+                # return result
+                rst.append(result)
             except:
                 try:
                     result = ast.literal_eval(match)
-                    return result
+                    # return result
+                    rst.append(result)
                 except:
                     continue
                 continue
+        if rst:
+            return rst
         return "JSONParsingError"
         
     def _evaluate_one(self, y_true, y_pred):

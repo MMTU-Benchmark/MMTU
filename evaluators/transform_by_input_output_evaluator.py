@@ -35,6 +35,7 @@ class TransformByInputOutputEvaluator(BaseEvaluator):
         
         error_msg = ""
         
+        case_path = os.path.expandvars(case_path)
         assert os.path.exists(case_path)
         test_id = case_path.split("/")[-1]
         
@@ -58,6 +59,7 @@ class TransformByInputOutputEvaluator(BaseEvaluator):
                     f.write(y_pred)
 
                 target_gt = pd.read_csv("output_gt.csv").fillna('nan')
+                target_gt = target_gt.astype({col: 'float' for col in target_gt.select_dtypes(include='number').columns})
                 target_gt_list = target_gt.to_numpy().tolist()
                 target_gt_columns = target_gt.columns.tolist()
                 exit_code = None
@@ -83,6 +85,7 @@ class TransformByInputOutputEvaluator(BaseEvaluator):
                     try:
                         assert os.path.exists("output.csv")
                         target_pred_res = pd.read_csv("output.csv").fillna('nan')
+                        target_pred_res = target_pred_res.astype({col: 'float' for col in target_pred_res.select_dtypes(include='number').columns})
                         shutil.copy("output.csv", "run_output.csv")
                         target_pred_res_path = os.path.abspath("run_output.csv")
                         target_pred_res_list = target_pred_res.to_numpy().tolist()
@@ -101,12 +104,27 @@ class TransformByInputOutputEvaluator(BaseEvaluator):
         flag_test = False
         flag_test_round10 = False
         columns_match = target_pred_res_columns == target_gt_columns
-        if y_pred != self.codeBlockNotFound and type(target_pred_res) == pd.DataFrame and columns_match:
+        if y_pred != self.codeBlockNotFound and type(target_pred_res) == pd.DataFrame:
             try:
                 target_pred_res.sort_values(by=target_pred_res.columns.tolist(), inplace=True)
+                target_pred_res.reset_index(drop=True, inplace=True)
                 target_gt.sort_values(by=target_gt.columns.tolist(), inplace=True)
-                flag_test = target_pred_res.equals(target_gt)
-                flag_test_round10 = target_pred_res.round(10).equals(target_gt.round(10))
+                target_gt.reset_index(drop=True, inplace=True)
+
+                target_pred_res_flat = target_pred_res.astype(str).to_numpy().ravel()
+                target_gt_flat = target_gt.astype(str).to_numpy().ravel()
+
+                target_pred_res_flat_round10 = target_pred_res.round(10).astype(str).to_numpy().ravel()
+                target_gt_flat_round10 = target_gt.astype(str).round(10).to_numpy().ravel()
+
+                flag_test = np.array_equal(
+                    np.sort(target_pred_res_flat),
+                    np.sort(target_gt_flat)
+                )
+                flag_test_round10 = np.array_equal(
+                    np.sort(target_pred_res_flat_round10),
+                    np.sort(target_gt_flat_round10)
+                )
             except Exception as e:
                 print(f"Error in case {test_id}: {e}")
                 pass
@@ -177,7 +195,8 @@ class TransformByInputOutputEvaluator(BaseEvaluator):
         print("n_jobs", n_jobs)
         
         # prepare for runtime
-        exec_root = "/datadrive/junjie/tmp_runtime"
+        mmtu_home = os.environ['MMTU_HOME']
+        exec_root = os.path.join(mmtu_home, "tmp_exec")
         os.makedirs(exec_root, exist_ok=True)
         now = datetime.now()
         timestamp_str = now.strftime("%Y-%m-%d_%H-%M-%S")

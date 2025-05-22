@@ -11,16 +11,31 @@ class TQAEvaluator(BaseEvaluator):
         # print(f"str(y_true).lower(): {str(y_true).lower()}")
         # print(f"str(y_pred).lower(): {str(y_pred).lower()}")
         # print(f"str(y_true).lower() == str(y_pred).lower() == {str(y_true).lower() == str(y_pred).lower()}")
+        correct = 0
         if str(y_true).lower() == str(y_pred).lower():
-            correct = 1
+            return {"correct": 1}
         else:
-            try:
-                if float(y_true) == float(y_pred):
-                    correct = 1
-                else:
+            if type(y_pred) == str:
+                if "%" in y_pred:
+                    y_pred = y_pred.replace("%", "")
+                    if round(float(y_true), 2) == round(float(y_pred), 2):
+                        return {"correct": 1}
+                    
+                    y_pred = float(y_pred) / 100
+                    if round(float(y_true), 2) == round(float(y_pred), 2):
+                        return {"correct": 1}
+                elif "$" in y_pred:
+                    y_pred = y_pred.replace("$", "").replace(",", "")
+                    if round(float(y_true), 2) == round(float(y_pred), 2):
+                        return {"correct": 1}
+            else:
+                try:
+                    if round(float(y_true), 2) == round(float(y_pred), 2):
+                        correct = 1
+                    else:
+                        correct = 0
+                except:
                     correct = 0
-            except:
-                correct = 0
             
         res = {
             "correct": correct

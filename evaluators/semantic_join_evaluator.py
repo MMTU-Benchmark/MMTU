@@ -13,7 +13,10 @@ class SemanticJoinEvaluator(BaseEvaluator):
         self.gt_key = "label"
         
     def _evaluate_one(self, y_true, y_pred):
-        correct = 0
+        precision = None
+        recall = None
+        # f1 = None
+        
         try:
             assert isinstance(y_true, list), "y_true should be a list"
             assert isinstance(y_pred, list), f"y_pred should be a list: {y_pred}"
@@ -27,6 +30,9 @@ class SemanticJoinEvaluator(BaseEvaluator):
             df_true.columns = ["col1", "col2"]
             df_pred.columns = ["col1", "col2"]
             
+            df_pred = df_pred.astype({"col1": str, "col2": str})
+            df_true = df_true.astype({"col1": str, "col2": str})
+            
             df_true.sort_values(by=["col1", "col2"], inplace=True)
             df_pred.sort_values(by=["col1", "col2"], inplace=True)
             df_true.drop_duplicates(subset=["col1", "col2"], inplace=True)
@@ -35,30 +41,34 @@ class SemanticJoinEvaluator(BaseEvaluator):
             df_pred.reset_index(drop=True, inplace=True)
 
             # Assuming df1 and df2 are your two DataFrames
-            common_rows = pd.merge(df_true, df_true, how='inner', on=["col1", "col2"])
+            common_rows = pd.merge(df_true, df_pred, how='inner', on=["col1", "col2"])
             num_common_rows = len(common_rows)
-            correct = num_common_rows / len(df_true)
-            assert correct >= 0, "correct should be greater than or equal to 0"
-            assert correct <= 1, f"correct should be less than or equal to 1, len(df_true): {len(df_true)}, len(df_pred): {len(df_pred)}, num_common_rows: {num_common_rows}"
-            # if df_true.equals(df_pred):
-            #     correct = 1
-            if correct < 0 or correct > 1:
-                print(f"Error: correct value out of bounds: {correct}, len(df_true): {len(df_true)}, len(df_pred): {len(df_pred)}")
-                exit(1)
+            precision = num_common_rows / len(df_pred) if len(df_pred) > 0 else 0
+            recall = num_common_rows / len(df_true) if len(df_true) > 0 else 0
             
         except Exception as e:
-            pass
-
-        
+            res = {
+                "precision": None,
+                "recall": 0,
+            }
+            return res
         
         res = {
-            "correct": correct,
-        }
+                "precision": precision,
+                "recall": recall,
+            }
         return res
     
-    def _compute_metric(self, res):
-        acc = res["correct"].values.mean()
+    def _compute_metric(self, res):        
+        prec = res["precision"].dropna().mean()
+        recall = res["recall"].dropna().mean()
+        if not prec == 0 or not recall == 0:
+            f1 = 2 * prec * recall / (prec + recall)
+        else:
+            f1 = 0
         metric = {
-            "acc": acc,
+            "prec": prec,
+            "recall": recall,
+            "f1": f1
         }
         return metric

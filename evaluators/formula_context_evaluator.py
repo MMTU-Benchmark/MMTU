@@ -14,6 +14,8 @@ class FormulaPredictContextEvaluator(BaseEvaluator):
         
     def _evaluate_one(self, y_true, y_pred):
         correct = 0
+        y_true = y_true.replace("$", "").strip()
+        y_pred = y_pred.replace("$", "").strip()
         if y_true == y_pred:
             correct = 1
         

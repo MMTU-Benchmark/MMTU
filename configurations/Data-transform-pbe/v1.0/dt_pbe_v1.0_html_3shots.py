@@ -55,13 +55,13 @@ dataset_config = {
         "input_table": {
             "type": "table.csv",
             "path": "example_input.csv",
-            "reader": "pandas",
+            "reader": "pandas.str",
             "serializer": HTMLSerializer
         },
         "output_table": {
             "type": "table.csv",
             "path": "example_output.csv",
-            "reader": "pandas",
+            "reader": "pandas.str",
             "serializer": HTMLSerializer
         },
         "fewshots": {
@@ -73,13 +73,13 @@ dataset_config = {
                 "input_table": {
                     "type": "table.csv",
                     "path": "example_input.csv",
-                    "reader": "pandas",
+                    "reader": "pandas.str",
                     "serializer": HTMLSerializer
                 },
                 "output_table": {
                     "type": "table.csv",
                     "path": "example_output.csv",
-                    "reader": "pandas",
+                    "reader": "pandas.str",
                     "serializer": HTMLSerializer
                 },
                 "output": {

@@ -10,6 +10,7 @@ import subprocess
 from pandas.errors import EmptyDataError
 import json
 import shutil
+from datetime import datetime
 
 class DTPBEBaseEvaluator(BaseEvaluator):
     def __init__(self):
@@ -24,9 +25,9 @@ class DTPBEBaseEvaluator(BaseEvaluator):
         
     def _evaluate_row(self, y_pred, case_path, exec_dir):        
         example_pred_res = None
-        example_gt_res = None
+        example_gt_res = pd.DataFrame()
         test_pred_res = None
-        test_gt_res = None
+        test_gt_res = pd.DataFrame()
         
         example_pred_res_list = None
         example_gt_res_list = None
@@ -36,6 +37,7 @@ class DTPBEBaseEvaluator(BaseEvaluator):
         example_pred_res_path = None
         test_pred_res_path = None
         
+        case_path = os.path.expandvars(case_path)
         assert os.path.exists(case_path)
         test_id = case_path.split("/")[-1]
         
@@ -178,14 +180,6 @@ class DTPBEBaseEvaluator(BaseEvaluator):
         if len(matches) == 0:
             return self.codeBlockNotFound
         return matches[0].strip()
-        
-    def _get_gt(self, label):
-        js = json.loads(label)
-        return js[self.answer_key]
-        # gt = self.extract_json_answer(label, self.answer_key)
-        # if gt == "JSONParsingError":
-        #     raise Exception("Parsing Error on ground truth")
-        # return gt
     
     def parse_raw(self, row, exec_dir):
         row_res = json.loads(row.metadata)
@@ -218,9 +212,13 @@ class DTPBEBaseEvaluator(BaseEvaluator):
         print("n_jobs", n_jobs)
         
         # prepare for runtime
-        exec_root = "/datadrive/junjie/tmp_runtime"
+        mmtu_home = os.environ['MMTU_HOME']
+        exec_root = os.path.join(mmtu_home, "tmp_exec")
         os.makedirs(exec_root, exist_ok=True)
-        exec_dir = os.path.join(exec_root, f"timestamp_{time.time_ns()}")
+        now = datetime.now()
+        timestamp_str = now.strftime("%Y-%m-%d_%H-%M-%S")
+        exec_dir = os.path.join(exec_root, f"timestamp_{timestamp_str}")
+        print(f"exec_dir: {exec_dir}")
         os.mkdir(exec_dir)
 
         if n_jobs == 1:

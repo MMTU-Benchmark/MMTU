@@ -24,6 +24,7 @@ class TNIAHEvaluator(BaseEvaluator):
     def _get_gt(self, metadata):
         # return the GT answer
         tbl_path = os.path.join(metadata["case_path"], "data.csv")
+        tbl_path = os.path.expandvars(tbl_path)
         df = pd.read_csv(tbl_path, nrows=1)
         col_name = df.columns[metadata["needle_col_idx"]]
         return {"row": metadata["needle_row_idx"], "column": col_name}

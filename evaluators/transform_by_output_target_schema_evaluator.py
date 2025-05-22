@@ -10,6 +10,8 @@ import subprocess
 from pandas.errors import EmptyDataError
 import json
 import shutil
+from datetime import datetime
+
 
 class TransformByTargetSchemaEvaluator(BaseEvaluator):
     def __init__(self):
@@ -34,6 +36,7 @@ class TransformByTargetSchemaEvaluator(BaseEvaluator):
         
         error_msg = ""
         
+        case_path = os.path.expandvars(case_path)
         assert os.path.exists(case_path)
         test_id = case_path.split("/")[-1]
         
@@ -107,7 +110,9 @@ class TransformByTargetSchemaEvaluator(BaseEvaluator):
         if y_pred != self.codeBlockNotFound and type(target_pred_res) == pd.DataFrame and columns_match:
             try:
                 target_pred_res.sort_values(by=target_pred_res.columns.tolist(), inplace=True)
+                target_pred_res.reset_index(drop=True, inplace=True)
                 target_gt.sort_values(by=target_gt.columns.tolist(), inplace=True)
+                target_gt.reset_index(drop=True, inplace=True)
                 flag_test = target_pred_res.equals(target_gt)
                 flag_test_round10 = target_pred_res.round(10).equals(target_gt.round(10))
             except Exception as e:
@@ -180,9 +185,13 @@ class TransformByTargetSchemaEvaluator(BaseEvaluator):
         print("n_jobs", n_jobs)
         
         # prepare for runtime
-        exec_root = "/datadrive/junjie/tmp_runtime"
+        mmtu_home = os.environ['MMTU_HOME']
+        exec_root = os.path.join(mmtu_home, "tmp_exec")
         os.makedirs(exec_root, exist_ok=True)
-        exec_dir = os.path.join(exec_root, f"timestamp_{time.time_ns()}")
+        now = datetime.now()
+        timestamp_str = now.strftime("%Y-%m-%d_%H-%M-%S")
+        exec_dir = os.path.join(exec_root, f"timestamp_{timestamp_str}")
+        print(f"exec_dir: {exec_dir}")
         os.mkdir(exec_dir)
 
         if n_jobs == 1:
