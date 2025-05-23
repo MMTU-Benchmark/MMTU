@@ -156,14 +156,6 @@ class BaseEvaluator(object):
         eval_results = self.evaluate_by_group(result, self.group_keys, n_jobs=n_jobs)
         merge_results = result.groupby(self.merge_keys, as_index=False).agg(lambda x: list(x))
         avg_results = eval_results.groupby(self.merge_keys, as_index=False).mean(numeric_only=True).sort_values(by=self.merge_keys)
-
-        result["percentile_group"] = pd.qcut(result['prompt_tokens'], q=4, labels=["0-25%", "25-50%", "50-75%", "75-100%"])
-        eval_results_percentile = self.evaluate_by_group(result, self.group_keys + ["task", "model_name", "percentile_group"], n_jobs=n_jobs)
-        merge_results_percentile = result.groupby(self.merge_keys + ["task", "model_name", "percentile_group"], as_index=False).agg(lambda x: list(x))
-        avg_results_percentile = eval_results_percentile.groupby(self.merge_keys + ["task", "model_name", "percentile_group"], as_index=False).mean(numeric_only=True).sort_values(by=self.merge_keys + ["percentile_group"])
-        
-        if debug_dir is not None:
-            avg_results_percentile.to_csv(makedir([debug_dir], "avg_results_percentile.csv"), index=False)
             
         error_cnt = None
         if "error" in result:

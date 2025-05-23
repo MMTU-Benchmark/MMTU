@@ -375,7 +375,7 @@ def build_data(config_file, num_workers=cpu_count(), debug=False, token_limit=64
         print("<<<<<<<<<<<<<<<<<")
         
         if test:
-            from queryWithDeployment import get_query_func
+            from inference import get_query_func
             print("\nTesting the Prompt:")
             for engine in test_engines:
                 query_funcs, model_name = get_query_func(engine)

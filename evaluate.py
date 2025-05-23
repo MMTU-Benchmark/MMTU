@@ -41,12 +41,12 @@ summary_metric = {
     "NL2SQL": "acc",
     "Table-QA": "acc",
     "Table-Fact-Verification": "acc",
-    "Error-Detect": ["prec", "recall", "f1"],
+    "Error-Detect": "f1",
     "Data-transform-pbe": "acc",
     "Entity-Matching": "acc",
-    "Table-needle-in-a-haystack": ["acc", "row_acc", "col_acc"],
+    "Table-needle-in-a-haystack": "acc",
     "Table-Locate-by-Row-Col": "acc",
-    "Schema-Matching": ["prec", "recall", "f1"],
+    "Schema-Matching": "f1",
     "Data-transform-reshape": "acc",
     "Data-Imputation": "acc",
     "List-to-table": "acc",
@@ -54,15 +54,15 @@ summary_metric = {
     "Transform-by-output-target-schema": "acc",
     "Transform-by-input-output-table": "acc",
     "semantic-transform": "acc",
-    "semantic-join": "acc",
+    "semantic-join": "f1",
     "header-value-matching": "acc",
-    "Arithmetic-Relationship": ["prec", "recall", "f1"],
-    "Functional-Dependency": ["prec", "recall", "f1"],
-    "String-Relationship": ["prec", "recall", "f1"],
+    "Arithmetic-Relationship": "f1",
+    "Functional-Dependency": "f1",
+    "String-Relationship": "f1",
     "Cell-entity-annotation": "acc",
     "Column-type-annotation": "acc",
     "Columns-property-anotation": "acc",
-    "equi-join-detect": ["prec", "recall", "f1"],
+    "equi-join-detect": "f1",
 }
 
 evaluator_dict = {
@@ -93,8 +93,12 @@ evaluator_dict = {
     "equi-join-detect": EquiJoinDetectEvaluator(),
 }
 
-def evaluate_dir(result_dir):
-    print("Evaluating", result_dir)
+def evaluate(result_file):
+    result_dir = "results"
+    if os.path.exists(result_dir):
+        print("Result directory already exists. Removing it.")
+        shutil.rmtree(result_dir)
+    os.makedirs(result_dir)
     summary_benchmarks = []
     summary_tasks = defaultdict(list)
     avg_results_dict = {} # avg_results_dict[task][model_name]
@@ -105,18 +109,15 @@ def evaluate_dir(result_dir):
         if os.path.exists(os.path.join(result_dir, subfolder)):
             shutil.rmtree(os.path.join(result_dir, subfolder))
 
-
-    for jsonl_file in os.listdir(os.path.join(result_dir, "preds")):
+    for jsonl_file in [result_file]:
         print("Evaluating", jsonl_file)
-        model_name = jsonl_file[:-6]
-        if model_name.find(".jsonl") != -1:
-            model_name = model_name[model_name.find(".jsonl")+7:]
-        model_name = model_name.replace(".result", "")
-        preds = pd.read_json(os.path.join(result_dir, "preds", jsonl_file), lines=True)
+        model_name = os.path.basename(jsonl_file).split(".")[-3]
+        preds = pd.read_json(jsonl_file, lines=True)
         if preds.shape[0] == 0:
             print("Empty preds file")
             continue
-        preds["task"] = preds["metadata"].apply(lambda x: json.loads(x)["task"])
+        if "task" not in preds.columns:
+            preds["task"] = preds["metadata"].apply(lambda x: json.loads(x)["task"])
         
         summary_benchmark_list = []
         for task, preds_group in preds.groupby("task"):
@@ -204,11 +205,13 @@ def evaluate_dir(result_dir):
         res.to_csv(utils.makedir([result_dir, "csv"], f"{task}_summary.csv"))
         print(f"------ {task} summary ----")
         print(res.to_markdown(tablefmt="grid"))
+    print("Overall MMTU score:")
+    print(summary_benchmarks.groupby(["task", "tag"]).mean(numeric_only=True).mean(numeric_only=True))
     return summary_benchmarks
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("result_dir", type=str)
+    parser.add_argument("result_file", type=str)
     parser.add_argument("--n_jobs", default=-1, type=int)
     parser.add_argument("--debug", action="store_true", default=False)
     parser.add_argument("--viz", action="store_true", default=False)
@@ -218,23 +221,6 @@ if __name__ == "__main__":
     if args.n_jobs < 0:
         args.n_jobs = os.cpu_count()
 
-    if "preds" in os.listdir(args.result_dir):
-        evaluate_dir(args.result_dir)
-    else:
-        summs = []
-        for subfolder in os.listdir(args.result_dir):
-            subfolder = os.path.join(args.result_dir, subfolder)
-            if not os.path.isdir(subfolder):
-                continue
-            summ = evaluate_dir(subfolder)
-            summs.append(summ)
-        summs = pd.concat(summs, axis=0)
-        # print(summs)
-        excel_filename  = utils.makedir([args.result_dir], f"overall_average.xlsx")
-        if os.path.exists(excel_filename):
-            os.remove(excel_filename)
-        with pd.ExcelWriter(excel_filename, engine='xlsxwriter') as writer:
-            # Group by the 'task' column and write each group to a separate sheet
-            for task, group in summs.groupby(level=0):
-                group.sort_index().to_excel(writer, sheet_name=str(task)[:31])
-                # group.to_excel(writer, sheet_name=str(task))
+    assert os.path.exists(args.result_file), f"Result file {args.result_file} does not exist"
+
+    evaluate(args.result_file)
