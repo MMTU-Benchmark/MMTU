@@ -36,7 +36,7 @@ class TransformByInputOutputEvaluator(BaseEvaluator):
         error_msg = ""
         
         case_path = os.path.expandvars(case_path)
-        assert os.path.exists(case_path)
+        assert os.path.exists(case_path), f"Case path {case_path} does not exist. Please make sure that you have downloaded the MMTU data. See README for more details."
         test_id = case_path.split("/")[-1]
         
         cur_exec_dir = f"{exec_dir}/{test_id}"

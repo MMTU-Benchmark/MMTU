@@ -127,7 +127,7 @@ def evaluate(result_file):
                 avg_results_dict[task] = defaultdict(list)
                 detail_results_dict[task] = defaultdict(list)
                 error_cnt_dict[task] = defaultdict(list)
-            print(task)
+            print(f"-- {task} --")
             debug_dir = utils.makedir([result_dir, "debug", task, model_name]) if args.debug else None
             viz_dir = utils.makedir([result_dir, "viz", task, model_name]) if args.viz else None
             evaluator = evaluator_dict[task]

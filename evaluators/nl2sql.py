@@ -76,7 +76,9 @@ class NSEvaluator(BaseEvaluator):
     def _evaluate_one(self, sql, table_path, gt_path): # type: ignore
         """Evaluate the generated SQL query against the ground truth."""
         table_path = os.path.expandvars(table_path)
+        assert os.path.exists(table_path), f"Table path {table_path} does not exist.  Please make sure that you have downloaded the MMTU data. See README for more details."
         gt_path = os.path.expandvars(gt_path)
+        assert os.path.exists(gt_path), f"Ground truth path {gt_path} does not exist.  Please make sure that you have downloaded the MMTU data. See README for more details."
 
         # Load the table and ground truth
         gt = pd.read_csv(gt_path)
