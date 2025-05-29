@@ -29,7 +29,7 @@ These tasks are curated from decades of computer science research and represent 
 
 ### Step 0: Download the Data
 
-Download the original data from [OneDrive](https://microsoft-my.sharepoint.com/:f:/p/junjiexing/EqFGfJ01UupJvlcmty70eewBPdSDqtZtaHiWOqcnXTLuJQ?e=t24Sir) and extract the contents.
+Download the original data from [OneDrive](https://1drv.ms/f/c/4eea81351af2d84b/Em8WdXGOGwBFnx92aN8ZKNEBYLCkJlkwzZYTlmkx3jUykg?e=pBb24n) and extract the contents.
 
 ### Step 1: Set Up Environment
 
