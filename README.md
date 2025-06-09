@@ -21,8 +21,8 @@ We introduce **MMTU**, a large-scale benchmark with over **30K questions** acros
 
 <img width="839" alt="mmtu" src="https://github.com/user-attachments/assets/95dd2a05-755e-40cf-a6cb-9d2953394241" />
 
-We highlight key findings in our evaluation using MMTU and hope that this benchmark drives further advances in using foundation models for structured data.
-
+## 🛠️ Dataset Creation
+MMTU tasks are carefully collected from real-world tasks studied in decades’ worth of computer science research on tabular data, from communities such as data management (SIGMOD/VLDB), programming languages (PLDI/POPL), and web data (WWW/WSDM), with a focus on real and complex table tasks faced by professional users that often require skills like table understanding, coding and reasoning. Please refer to our huggingface 🤗 [Dataset(https://huggingface.co/datasets/MMTU-benchmark/MMTU)] for more details.
 
 ## 🏆 Leaderboard
 
