@@ -2,7 +2,7 @@
 
 <!-- |[**🤗 Dataset**](https://huggingface.co/datasets/MMTU-benchmark/MMTU) | [**🏆Leaderboard**]() | [**📖 Paper**](https://arxiv.org/abs/2506.05587) | -->
 
-|[**🤗 Dataset**](https://huggingface.co/datasets/MMTU-benchmark/MMTU) |[**🏆Leaderboard**](https://github.com/MMTU-Benchmark/MMTU/edit/main/README.md#-leaderboard)|[**📖 Paper**](https://arxiv.org/abs/2506.05587) |
+|[**🤗 Dataset**](https://huggingface.co/datasets/MMTU-benchmark/MMTU) |[**🏆Leaderboard**](#-leaderboard)|[**📖 Paper**](https://arxiv.org/abs/2506.05587) |
 
 This repo contains the evaluation code for the paper "[MMTU: A Massive Multi-Task Table Understanding and Reasoning Benchmark](https://arxiv.org/abs/2506.05587)" 
 
