@@ -31,9 +31,17 @@ MMTU was developed through the meticulous curation of 52 datasets across 25 task
 
 ## 🏆 Leaderboard
 
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/68ab3a73-2ac6-42a7-abbf-21509b75b521" width="600"/>
-</div>
+| **Model Type** | **Model**           | **MMTU Score**     | 
+|----------------|---------------------|----------------------|
+| Reasoning      | o4-mini (2024-11-20)| **0.639 ± 0.01**     |
+| Reasoning      | Deepseek-R1         | 0.596 ± 0.01         |
+| Chat           | Deepseek-V3         | 0.517 ± 0.01         |
+| Chat           | GPT-4o (2024-11-20) | 0.491 ± 0.01         |
+| Chat           | Llama-3.3-70B       | 0.438 ± 0.01         |
+| Chat           | Mistral-Large-2411  | 0.430 ± 0.01         |
+| Chat           | Mistral-Small-2503  | 0.402 ± 0.01         |
+| Chat           | GPT-4o-mini (2024-07-18)| 0.386 ± 0.01         |
+| Chat           | Llama-3.1-8B        | 0.259 ± 0.01         |
 
 
 
