@@ -2,7 +2,7 @@
 
 <!-- |[**🤗 Dataset**](https://huggingface.co/datasets/MMTU-benchmark/MMTU) | [**🏆Leaderboard**]() | [**📖 Paper**](https://arxiv.org/abs/2506.05587) | -->
 
-|[**🤗 Dataset**](https://huggingface.co/datasets/MMTU-benchmark/MMTU) |[**📖 Paper**](https://arxiv.org/abs/2506.05587) |
+|[**🤗 Dataset**](https://huggingface.co/datasets/MMTU-benchmark/MMTU) |[**🏆Leaderboard**](https://github.com/MMTU-Benchmark/MMTU/edit/main/README.md#-leaderboard)|[**📖 Paper**](https://arxiv.org/abs/2506.05587) |
 
 This repo contains the evaluation code for the paper "[MMTU: A Massive Multi-Task Table Understanding and Reasoning Benchmark](https://arxiv.org/abs/2506.05587)" 
 
@@ -21,8 +21,13 @@ We introduce **MMTU**, a large-scale benchmark with over **30K questions** acros
 
 <img width="839" alt="mmtu" src="https://github.com/user-attachments/assets/95dd2a05-755e-40cf-a6cb-9d2953394241" />
 
+
 ## 🛠️ Dataset Creation
-MMTU tasks are carefully collected from real-world tasks studied in decades’ worth of computer science research on tabular data, from communities such as data management (SIGMOD/VLDB), programming languages (PLDI/POPL), and web data (WWW/WSDM), with a focus on real and complex table tasks faced by professional users that often require skills like table understanding, coding and reasoning. Please refer to our huggingface 🤗 [Dataset(https://huggingface.co/datasets/MMTU-benchmark/MMTU)] for more details.
+MMTU was developed through the meticulous curation of 52 datasets across 25 task categories, each carefully labeled by computer science researchers, in decades’ worth of research on tabular data from communities such as data management (SIGMOD/VLDB), programming languages (PLDI/POPL), and web data (WWW/WSDM).  The benchmark emphasizes real-world, complex table tasks encountered by professional users—tasks that demand advanced skills in table understanding, coding, and reasoning. Plesae see the table below for key statistics of the benchmark, and please visit our 🤗 [Dataset](https://huggingface.co/datasets/MMTU-benchmark/MMTU) page for additional details.
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/fc59e5fc-964b-4716-8e31-657edbdd7edb" width="400"/>
+</div>
 
 ## 🏆 Leaderboard
 
