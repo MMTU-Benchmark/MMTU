@@ -2,7 +2,7 @@
 
 <!-- |[**🤗 Dataset**](https://huggingface.co/datasets/MMTU-benchmark/MMTU) | [**🏆Leaderboard**]() | [**📖 Paper**](https://arxiv.org/abs/2506.05587) | -->
 
-|[**🤗 Dataset**](https://huggingface.co/datasets/MMTU-benchmark/MMTU) |
+|[**🤗 Dataset**](https://huggingface.co/datasets/MMTU-benchmark/MMTU) |[**📖 Paper**](https://arxiv.org/abs/2506.05587) |
 
 ⚠️ **Disclaimer**:
 This benchmark involves automated code execution (e.g., for data transformation). While safety precautions are in place, executing code—especially from external sources—carries inherent risks. We strongly recommend reviewing the code before running and executing in a secure, isolated environment. Use at your own discretion.
