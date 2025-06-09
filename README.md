@@ -15,9 +15,9 @@ This repo contains the evaluation code for the paper "[MMTU: A Massive Multi-Tas
 
 ## 🧠 Introduction
 
-**MMTU** is a large-scale benchmark designed to evaluate the table reasoning capabilities of large language models (LLMs). It consists of over **30,000 questions** across **25 real-world table tasks**, focusing on deep understanding, reasoning, and manipulation of tabular data.
+Tables and table-based use cases play a crucial role in many real-world applications, such as spreadsheets, databases, and computational notebooks, which traditionally require expert-level users like data engineers, analysts, and database administrators to operate. Although LLMs have shown remarkable progress in working with tables, comprehensive benchmarking of such capabilities remains limited, often narrowly focusing on tasks like NL-to-SQL and Table-QA, while overlooking the broader spectrum of real-world tasks that professional users face today. 
 
-These tasks are curated from decades of computer science research and represent challenges encountered by expert users in real applications, making MMTU a rigorous test for LLMs aspiring to professional-level table understanding.
+We introduce **MMTU**, a large-scale benchmark with over **30K questions** across **25 real-world table tasks**, designed to comprehensively evaluate models ability to understand, reason, and manipulate real tables at the expert-level. These tasks are drawn from decades' worth of computer science research on tabular data, with a focus on complex table tasks faced by professional users. We show that MMTU require a combination of skills -- including table understanding, reasoning, and coding -- that remain challenging for today's frontier models, where even frontier reasoning models like OpenAI o4-mini and DeepSeek R1 score only around 60%, suggesting significant room for improvement. We highlight key findings in our evaluation using MMTU and hope that this benchmark drives further advances in using foundation models for structured data.
 
 
 ## 🏆 Leaderboard
