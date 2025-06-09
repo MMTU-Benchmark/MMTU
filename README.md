@@ -4,8 +4,8 @@
 
 |[**🤗 Dataset**](https://huggingface.co/datasets/MMTU-benchmark/MMTU) |[**📖 Paper**](https://arxiv.org/abs/2506.05587) |
 
-⚠️ **Disclaimer**:
-This benchmark involves automated code execution (e.g., for data transformation). While safety precautions are in place, executing code—especially from external sources—carries inherent risks. We strongly recommend reviewing the code before running and executing in a secure, isolated environment. Use at your own discretion.
+This repo contains the evaluation code for the paper "[MMTU: A Massive Multi-Task Table Understanding and Reasoning Benchmark](https://arxiv.org/abs/2506.05587)" 
+
 
 ## 📚 Table of Contents
 - [Introduction](#introduction)
@@ -26,6 +26,9 @@ These tasks are curated from decades of computer science research and represent 
 
 
 ## 🚀 Evaluate Your Model
+
+⚠️ This benchmark involves automated code execution for some complex table tasks (e.g., for NL-2-SQL and data transformation). We recommend executing model-generated code in an isolated sandbox environment.
+
 
 ### Step 0: Download the Data
 
