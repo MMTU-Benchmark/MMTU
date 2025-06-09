@@ -88,3 +88,15 @@ python3 evaluate.py mmtu.jsonl.<MODEL_NAME>.result.jsonl
 ```
 
 This script will compute performance metrics for your model on the MMTU benchmark.
+
+## Citation
+
+
+```bibtex
+@article{mmtu,
+  title={{MMTU}: A Massive Multi-Task Table Understanding and Reasoning Benchmark},
+  author={Junjie Xing and Yeye He and Mengyu Zhou and Haoyu Dong and Shi Han and Lingjiao Chen and Dongmei Zhang and Surajit Chaudhuri and H. V. Jagadish},
+  journal={arXiv preprint arXiv:2506.05587},
+  year={2025}
+}
+```
