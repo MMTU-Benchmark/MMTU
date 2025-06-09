@@ -1,6 +1,6 @@
 # MMTU -- A Massive Multi-Task Table Understanding and Reasoning Benchmark
 
-<!-- |[**🤗 Dataset**](https://huggingface.co/datasets/MMTU-benchmark/MMTU) | [**🏆Leaderboard**]() | [**📖 Paper**]() | -->
+<!-- |[**🤗 Dataset**](https://huggingface.co/datasets/MMTU-benchmark/MMTU) | [**🏆Leaderboard**]() | [**📖 Paper**](https://arxiv.org/abs/2506.05587) | -->
 
 |[**🤗 Dataset**](https://huggingface.co/datasets/MMTU-benchmark/MMTU) |
 
