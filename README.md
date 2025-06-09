@@ -31,7 +31,10 @@ MMTU was developed through the meticulous curation of 52 datasets across 25 task
 
 ## 🏆 Leaderboard
 
-*Coming Soon*
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/68ab3a73-2ac6-42a7-abbf-21509b75b521" width="600"/>
+</div>
+
 
 
 ## 🚀 Evaluate Your Model
