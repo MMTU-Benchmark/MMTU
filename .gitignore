@@ -1,11 +1,14 @@
 venv/
 __pycache__/
+.vscode/
 
 
 data/
+data_sqlite
 datasets_prompt/
 resources/
 results/
+tmp_exec/
 
 bash.sh
 run_sample200.sh
@@ -14,6 +17,7 @@ run_sample200.sh
 *.pdf
 *.csv
 *.jsonl
+*.tar.gz
 error_analysis/
 
 configurations/Data-Imputation/v0.2_no_no_explanation

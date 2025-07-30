@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  mmtu-evaluate:
+    build:
+      context: .
+      dockerfile: Dockerfile.evaluate
+    volumes:
+      # Mount the current directory to /app in the container
+      - .:/app
+    working_dir: /app
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+      - MMTU_HOME=/app
