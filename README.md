@@ -100,7 +100,7 @@ python3 evaluate.py mmtu.jsonl.<MODEL_NAME>.result.jsonl
 
 This script will compute performance metrics for your model on the MMTU benchmark.
 
-### Step 3: Evaluation with Docker
+### Step 3 (Alternative): Evaluation with Docker
 
 This directory contains Docker configuration files to run the `evaluate.py` script in an isolated container environment.
 
