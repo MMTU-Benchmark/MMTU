@@ -8,10 +8,10 @@ This repo contains the evaluation code for the paper "[MMTU: A Massive Multi-Tas
 
 
 ## 📚 Table of Contents
-- [Introduction](#introduction)
-- [Leaderboard](#leaderboard)
-- [Evaluate Your Model](#evaluate-your-model)
-- [Extension](#-extension--table-task-prompt-evaluator)
+- [Introduction](#-introduction)
+- [Leaderboard](#-leaderboard)
+- [Evaluate Your Model](#-evaluate-your-model)
+- [Extension](#-extension-customizing-table-tasks-prompts-and-evaluation)
 
 
 ## 🧠 Introduction
