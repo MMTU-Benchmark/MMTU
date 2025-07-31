@@ -11,6 +11,7 @@ This repo contains the evaluation code for the paper "[MMTU: A Massive Multi-Tas
 - [Introduction](#introduction)
 - [Leaderboard](#leaderboard)
 - [Evaluate Your Model](#evaluate-your-model)
+- [Extension](#-extension--table-task-prompt-evaluator)
 
 
 ## 🧠 Introduction
@@ -113,6 +114,28 @@ chmod +x run_evaluate_docker.sh
 # Run evaluation on a result file
 ./run_evaluate_docker.sh mmtu.jsonl.<MODEL_NAME>.result.jsonl
 ```
+## 🔧 Extension: Customizing Table Tasks, Prompts, and Evaluation
+
+Our framework is designed to be easily extensible. You can add new table tasks, customize prompt templates, and define your own evaluation metrics with minimal effort.
+
+✨ Customizing Prompt Templates
+
+To modify the prompt template for a specific task (e.g., NL2SQL), simply update the prompt_template in the corresponding configuration file.
+
+1. Open the file: `configurations/NL2SQL/v1.0/ns_singletable_v1.0_sample1000_markdown.py`
+2. Modify the `prompt_template` as desired.
+3. Regenerate the prompts by running:
+
+```bash
+python3 build_data.py one --config configurations/NL2SQL/v1.0/ns_singletable_v1.0_sample1000_markdown.py
+```
+🧪 Adding Custom Evaluation Metrics
+To introduce new evaluation metrics for a task (e.g., NL2SQL), modify the _evaluate_one method in the relevant evaluator class.
+
+For example:
+
+- Edit the `NSEvaluator` class in `evaluators/nl2sql.py`
+- Update the `_evaluate_one` function to include your custom metric logic.
 
 ## Citation
 
