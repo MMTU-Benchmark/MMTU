@@ -162,6 +162,9 @@ def load_dataset(dataset_name, split="train", data_dir=None):
     """
     Load MMTU dataset from local JSONL files.
     
+    This function loads pre-built MMTU dataset files created by build_data.py.
+    If no pre-built dataset is found, it provides guidance on how to build one.
+    
     Args:
         dataset_name (str): Name of the dataset (e.g., "MMTU-benchmark/MMTU")
         split (str): Dataset split to load (default: "train")
@@ -170,6 +173,10 @@ def load_dataset(dataset_name, split="train", data_dir=None):
     
     Returns:
         MMTUDataset: Dataset object with to_json method
+        
+    Example:
+        >>> ds = load_dataset("MMTU-benchmark/MMTU", split="train")
+        >>> ds.to_json("mmtu.jsonl", lines=True)
     """
     if data_dir is None:
         # Try to get data directory from environment variable
@@ -179,35 +186,44 @@ def load_dataset(dataset_name, split="train", data_dir=None):
     jsonl_files = []
     if os.path.exists(data_dir):
         for file in os.listdir(data_dir):
-            if file.endswith(".jsonl") and split in file and "valid" in file:
+            if file.endswith(".jsonl") and "valid" in file:
                 jsonl_files.append(os.path.join(data_dir, file))
     
     if not jsonl_files:
-        # If no built dataset found, try to find any JSONL file with the expected format
-        print(f"Warning: No pre-built dataset found in {data_dir}")
-        print("Please ensure you have built the dataset using build_data.py or have a pre-built JSONL file available.")
+        # If no built dataset found, provide helpful guidance
+        print(f"Warning: No pre-built MMTU dataset found in {data_dir}")
+        print("To build the dataset:")
+        print("1. Download the raw data from the OneDrive link in README.md")
+        print("2. Set the MMTU_HOME environment variable: export MMTU_HOME=<path_to_data>")
+        print("3. Run: python build_data.py one --config <config_file>")
+        print("4. Or set MMTU_DATA_DIR to point to directory with pre-built JSONL files")
+        print("")
+        print("For now, using sample data for testing purposes...")
         
         # Create a sample dataset structure for testing
         sample_data = {
-            "prompt": ["Sample prompt for testing"],
-            "metadata": ['{"task": "sample", "dataset": "test"}']
+            "prompt": ["This is a sample prompt for testing the MMTU dataset loading functionality."],
+            "metadata": ['{"task": "sample", "dataset": "test", "note": "This is sample data - please build the actual dataset"}']
         }
         df = pd.DataFrame(sample_data)
         return MMTUDataset(df)
     
-    # Load the first available JSONL file
+    # Load the first available JSONL file (preferably the largest one)
+    jsonl_files.sort(key=lambda x: os.path.getsize(x), reverse=True)
     jsonl_file = jsonl_files[0]
-    print(f"Loading dataset from: {jsonl_file}")
+    print(f"Loading MMTU dataset from: {jsonl_file}")
     
     try:
         df = pd.read_json(jsonl_file, lines=True)
+        print(f"Successfully loaded {len(df)} examples from MMTU dataset")
         return MMTUDataset(df)
     except Exception as e:
         print(f"Error loading dataset from {jsonl_file}: {e}")
+        print("Using sample data as fallback...")
         # Return sample dataset as fallback
         sample_data = {
             "prompt": ["Sample prompt for testing"],
-            "metadata": ['{"task": "sample", "dataset": "test"}']
+            "metadata": ['{"task": "sample", "dataset": "test", "error": "Failed to load actual dataset"}']
         }
         df = pd.DataFrame(sample_data)
         return MMTUDataset(df)
