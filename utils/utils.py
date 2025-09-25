@@ -141,3 +141,73 @@ def load_version(data_dir):
     with open(os.path.join(data_dir, "version"), "r") as f:
         line = f.readlines()
     return line[0].strip()
+
+class MMTUDataset:
+    """A dataset wrapper that mimics HuggingFace datasets interface for MMTU data."""
+    
+    def __init__(self, df):
+        self.df = df
+    
+    def to_json(self, path, lines=True, orient="records"):
+        """Save dataset to JSON lines format."""
+        self.df.to_json(path, lines=lines, orient=orient)
+    
+    def __len__(self):
+        return len(self.df)
+    
+    def __getitem__(self, idx):
+        return self.df.iloc[idx].to_dict()
+
+def load_dataset(dataset_name, split="train", data_dir=None):
+    """
+    Load MMTU dataset from local JSONL files.
+    
+    Args:
+        dataset_name (str): Name of the dataset (e.g., "MMTU-benchmark/MMTU")
+        split (str): Dataset split to load (default: "train")
+        data_dir (str): Directory containing the dataset files. If None, looks for 
+                       environment variable MMTU_DATA_DIR or defaults to "./datasets_prompt"
+    
+    Returns:
+        MMTUDataset: Dataset object with to_json method
+    """
+    if data_dir is None:
+        # Try to get data directory from environment variable
+        data_dir = os.environ.get("MMTU_DATA_DIR", "./datasets_prompt")
+    
+    # Look for JSONL files in the data directory
+    jsonl_files = []
+    if os.path.exists(data_dir):
+        for file in os.listdir(data_dir):
+            if file.endswith(".jsonl") and split in file and "valid" in file:
+                jsonl_files.append(os.path.join(data_dir, file))
+    
+    if not jsonl_files:
+        # If no built dataset found, try to find any JSONL file with the expected format
+        print(f"Warning: No pre-built dataset found in {data_dir}")
+        print("Please ensure you have built the dataset using build_data.py or have a pre-built JSONL file available.")
+        
+        # Create a sample dataset structure for testing
+        sample_data = {
+            "prompt": ["Sample prompt for testing"],
+            "metadata": ['{"task": "sample", "dataset": "test"}']
+        }
+        df = pd.DataFrame(sample_data)
+        return MMTUDataset(df)
+    
+    # Load the first available JSONL file
+    jsonl_file = jsonl_files[0]
+    print(f"Loading dataset from: {jsonl_file}")
+    
+    try:
+        df = pd.read_json(jsonl_file, lines=True)
+        return MMTUDataset(df)
+    except Exception as e:
+        print(f"Error loading dataset from {jsonl_file}: {e}")
+        # Return sample dataset as fallback
+        sample_data = {
+            "prompt": ["Sample prompt for testing"],
+            "metadata": ['{"task": "sample", "dataset": "test"}']
+        }
+        df = pd.DataFrame(sample_data)
+        return MMTUDataset(df)

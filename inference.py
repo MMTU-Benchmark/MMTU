@@ -432,11 +432,11 @@ def main(args):
             assert os.path.exists(input_file), f"{input_file} not found"
         raise NotImplementedError("Input file processing not implemented")
     else:
-        print("Loading MMTU from huggingface...")
+        print("Loading MMTU dataset...")
 
-        from datasets import load_dataset
+        from utils.utils import load_dataset
 
-        # Login using e.g. `huggingface-cli login` to access this dataset
+        # Load the MMTU dataset from local files
         ds = load_dataset("MMTU-benchmark/MMTU", split="train")
 
         # Save to JSONL file
