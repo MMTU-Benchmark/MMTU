@@ -4,7 +4,7 @@
 
 |[**🤗 Dataset**](https://huggingface.co/datasets/MMTU-benchmark/MMTU) |[**🏆Leaderboard**](#-leaderboard) |[**📖 Paper**](https://arxiv.org/abs/2506.05587) |
 
-This repo contains the evaluation code for the NeuRIPS'25 benchmark paper "[MMTU: A Massive Multi-Task Table Understanding and Reasoning Benchmark](https://arxiv.org/abs/2506.05587)".
+This repo contains the evaluation code for the NeurIPS'25 benchmark paper "[MMTU: A Massive Multi-Task Table Understanding and Reasoning Benchmark](https://arxiv.org/abs/2506.05587)".
 
 ## Update • October 2025
 
