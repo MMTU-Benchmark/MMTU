@@ -8,12 +8,7 @@ This repo contains the evaluation code for the NeurIPS'25 benchmark paper "[MMTU
 
 ## Update • October 2025
 
-During the rebuttal period, we performed an LLM-based filtering process. After filtering, the number of questions in **MMTU** has been reduced from **30,647** to **28,136**.
-
-For more information, please check:
-- 📄 Our **paper**: <https://arxiv.org/abs/2506.05587>
-- 🤗 The updated **dataset**: <https://huggingface.co/datasets/MMTU-benchmark/MMTU>
-- 🏆 The refreshed **leaderboard**: [Jump to Leaderboard](#-leaderboard)
+To improve the quality of **MMTU**, we performed an LLM-based filtering process. After filtering, the number of questions in **MMTU** has been reduced to **28,136**.
 
 ## 📚 Table of Contents
 - [Introduction](#-introduction)
@@ -27,7 +22,8 @@ For more information, please check:
 
 Tables and table-based use cases play a crucial role in many real-world applications, such as spreadsheets, databases, and computational notebooks, which traditionally require expert-level users like data engineers, analysts, and database administrators to operate. Although LLMs have shown remarkable progress in working with tables, comprehensive benchmarking of such capabilities remains limited, often narrowly focusing on tasks like NL-to-SQL and Table-QA, while overlooking the broader spectrum of real-world tasks that professional users face today. 
 
-We introduce **MMTU**, a large-scale benchmark with around **28K questions** across **25 real-world table tasks**, designed to comprehensively evaluate models ability to understand, reason, and manipulate real tables at the expert-level. These tasks are drawn from decades' worth of computer science research on tabular data, with a focus on complex table tasks faced by professional users. We show that MMTU require a combination of skills -- including table understanding, reasoning, and coding -- that remain challenging for today's frontier models, where even frontier reasoning models like OpenAI o4-mini and DeepSeek R1 score only around 60%, suggesting significant room for improvement. 
+We introduce **MMTU**, a large-scale benchmark with around **28K questions** across **25 real-world table tasks**, designed to comprehensively evaluate models ability to understand, reason, and manipulate real tables at the expert-level. These tasks are drawn from decades' worth of computer science research on tabular data, with a focus on complex table tasks faced by professional users. We show that MMTU require a combination of skills -- including table understanding, reasoning, and coding -- that remain challenging for today's frontier models, where even frontier reasoning models like OpenAI GPT-5 and DeepSeek
+R1 score only around 69% and 57% respectively, suggesting significant room for improvement. 
 
 <img width="839" alt="mmtu" src="https://github.com/user-attachments/assets/95dd2a05-755e-40cf-a6cb-9d2953394241" />
 
