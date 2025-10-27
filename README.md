@@ -4,13 +4,22 @@
 
 |[**🤗 Dataset**](https://huggingface.co/datasets/MMTU-benchmark/MMTU) |[**🏆Leaderboard**](#-leaderboard) |[**📖 Paper**](https://arxiv.org/abs/2506.05587) |
 
-This repo contains the evaluation code for the paper "[MMTU: A Massive Multi-Task Table Understanding and Reasoning Benchmark](https://arxiv.org/abs/2506.05587)" 
+This repo contains the evaluation code for the NeuRIPS'25 benchmark paper "[MMTU: A Massive Multi-Task Table Understanding and Reasoning Benchmark](https://arxiv.org/abs/2506.05587)".
 
+## Update • October 2025
+
+During the rebuttal period, we performed an LLM-based filtering process. After filtering, the number of questions in **MMTU** has been reduced from **30,647** to **28,136**.
+
+For more information, please check:
+- 📄 Our **paper**: <https://arxiv.org/abs/2506.05587>
+- 🤗 The updated **dataset**: <https://huggingface.co/datasets/MMTU-benchmark/MMTU>
+- 🏆 The refreshed **leaderboard**: [Jump to Leaderboard](#-leaderboard)
 
 ## 📚 Table of Contents
 - [Introduction](#-introduction)
 - [Leaderboard](#-leaderboard)
 - [Evaluate Your Model](#-evaluate-your-model)
+  -  [Alternative: Evaluation with Docker](#step-3-alternative-evaluation-with-docker)
 - [Extension](#-extension-customizing-table-tasks-prompts-and-evaluation)
 
 
@@ -18,7 +27,7 @@ This repo contains the evaluation code for the paper "[MMTU: A Massive Multi-Tas
 
 Tables and table-based use cases play a crucial role in many real-world applications, such as spreadsheets, databases, and computational notebooks, which traditionally require expert-level users like data engineers, analysts, and database administrators to operate. Although LLMs have shown remarkable progress in working with tables, comprehensive benchmarking of such capabilities remains limited, often narrowly focusing on tasks like NL-to-SQL and Table-QA, while overlooking the broader spectrum of real-world tasks that professional users face today. 
 
-We introduce **MMTU**, a large-scale benchmark with over **30K questions** across **25 real-world table tasks**, designed to comprehensively evaluate models ability to understand, reason, and manipulate real tables at the expert-level. These tasks are drawn from decades' worth of computer science research on tabular data, with a focus on complex table tasks faced by professional users. We show that MMTU require a combination of skills -- including table understanding, reasoning, and coding -- that remain challenging for today's frontier models, where even frontier reasoning models like OpenAI o4-mini and DeepSeek R1 score only around 60%, suggesting significant room for improvement. 
+We introduce **MMTU**, a large-scale benchmark with around **28K questions** across **25 real-world table tasks**, designed to comprehensively evaluate models ability to understand, reason, and manipulate real tables at the expert-level. These tasks are drawn from decades' worth of computer science research on tabular data, with a focus on complex table tasks faced by professional users. We show that MMTU require a combination of skills -- including table understanding, reasoning, and coding -- that remain challenging for today's frontier models, where even frontier reasoning models like OpenAI o4-mini and DeepSeek R1 score only around 60%, suggesting significant room for improvement. 
 
 <img width="839" alt="mmtu" src="https://github.com/user-attachments/assets/95dd2a05-755e-40cf-a6cb-9d2953394241" />
 
@@ -27,22 +36,30 @@ We introduce **MMTU**, a large-scale benchmark with over **30K questions** acros
 MMTU was developed through the meticulous curation of 52 datasets across 25 task categories, each carefully labeled by computer science researchers, in decades’ worth of research on tabular data from communities such as data management (SIGMOD/VLDB), programming languages (PLDI/POPL), and web data (WWW/WSDM).  The benchmark emphasizes real-world, complex table tasks encountered by professional users—tasks that demand advanced skills in table understanding, coding, and reasoning. Plesae see the table below for key statistics of the benchmark, and please visit our 🤗 [Dataset](https://huggingface.co/datasets/MMTU-benchmark/MMTU) page for additional details.
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/fc59e5fc-964b-4716-8e31-657edbdd7edb" width="400"/>
+  <img src="https://github.com/user-attachments/assets/f6410469-6a7a-44d9-843e-c6acf19278bc" width="400"/>
 </div>
+
 
 ## 🏆 Leaderboard
 
+Below is a portion of our evaluation results. For the complete leaderboard and additional details, please visit the **[MMTU Leaderboard](https://huggingface.co/datasets/MMTU-benchmark/MMTU)**.
+
+
 | **Model Type** | **Model**           | **MMTU Score**     | 
 |----------------|---------------------|----------------------|
-| Reasoning      | o4-mini (2024-11-20)| **0.639 ± 0.01**     |
-| Reasoning      | Deepseek-R1         | 0.596 ± 0.01         |
-| Chat           | Deepseek-V3         | 0.517 ± 0.01         |
-| Chat           | GPT-4o (2024-11-20) | 0.491 ± 0.01         |
-| Chat           | Llama-3.3-70B       | 0.438 ± 0.01         |
-| Chat           | Mistral-Large-2411  | 0.430 ± 0.01         |
-| Chat           | Mistral-Small-2503  | 0.402 ± 0.01         |
-| Chat           | GPT-4o-mini (2024-07-18)| 0.386 ± 0.01         |
-| Chat           | Llama-3.1-8B        | 0.259 ± 0.01         |
+| Reasoning      | GPT-5               | **0.696 ± 0.01**     |
+| Reasoning      | o3                  | 0.691 ± 0.01         |
+| Reasoning      | GPT-5-mini          | 0.667 ± 0.01         |
+| Reasoning      | Gemini-2.5-Pro      | 0.665 ± 0.01         |
+| Reasoning      | o4-mini (2024-11-20)| 0.660 ± 0.01         |
+| Reasoning      | Deepseek-R1         | 0.597 ± 0.01         |
+| Chat           | GPT-5-Chat          | 0.577 ± 0.01         |
+| Chat           | Deepseek-V3         | 0.555 ± 0.01         |
+| Chat           | GPT-4o (2024-11-20) | 0.507 ± 0.01         |
+| Chat           | Llama-3.3-70B       | 0.454 ± 0.01         |
+| Chat           | Mistral-Large-2411  | 0.446 ± 0.01         |
+| Chat           | Mistral-Small-2503  | 0.417 ± 0.01         |
+| Chat           | GPT-4o-mini (2024-07-18)| 0.400 ± 0.01         |
 
 
 
