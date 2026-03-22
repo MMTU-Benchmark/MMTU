@@ -7,3 +7,4 @@ tenacity
 datasets
 openai
 azure-ai-inference
+wandb>=0.16.0

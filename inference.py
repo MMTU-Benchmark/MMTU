@@ -10,6 +10,7 @@ from datetime import date
 from openai import AzureOpenAI, OpenAI
 from tenacity import (
     retry,
+    retry_if_not_exception_type,
     stop_after_attempt,
     wait_random_exponential,
     wait_random,
@@ -44,7 +45,7 @@ query_queue = queue.Queue()
 # Lock for synchronizing file write operations
 file_lock = threading.Lock()
 
-@retry(wait=wait_random_exponential(max=30, multiplier=2), stop=stop_after_attempt(6))
+@retry(wait=wait_random_exponential(max=30, multiplier=2), stop=stop_after_attempt(6), retry=retry_if_not_exception_type(openai.BadRequestError))
 def query_request(client, model, prompt, temperature=1.0, timeout=90):
     response = ""
     prompt_token = None
@@ -95,10 +96,47 @@ def query_request(client, model, prompt, temperature=1.0, timeout=90):
         logger.error(f"Internal server error.")
         raise e
         # exit(1)
+    except openai.BadRequestError as e:
+        t1 = time.time()
+        error_msg = str(e)
+        logger.error(f"Bad request error: {error_msg}")
+        if "context_length" in error_msg or "input_tokens" in error_msg or "too many tokens" in error_msg.lower():
+            response = "Error: string above max length"
+        elif "content_filter" in error_msg:
+            response = "Error: content filter"
+        else:
+            response = f"Error: bad request - {error_msg}"
+        return {
+            "response": response,
+            "prompt_tokens": prompt_token,
+            "completion_tokens": completion_token,
+            "time_taken": t1 - t0
+        }
     except Exception as e:
         # print(f"End time: {time.time()}")
         # logger.error(f"Error processing query: {e}")
         print(e.__dict__)
+        # Check for HTTP 400 errors that bypassed openai.BadRequestError
+        # (e.g. from vLLM OpenAI-compatible servers)
+        status = getattr(e, 'status_code', getattr(e, 'code', None))
+        logger.error(f"[DIAG] Generic handler hit: type={type(e).__name__}, status={status}, mro={[c.__name__ for c in type(e).__mro__]}")
+        if status == 400:
+            logger.error(f"[DIAG] Caught 400 in generic handler — returning early (no retry)")
+            error_msg = str(e)
+            t1 = time.time()
+            if "context_length" in error_msg or "input_tokens" in error_msg or "too many tokens" in error_msg.lower():
+                response = "Error: string above max length"
+            elif "content_filter" in error_msg:
+                response = "Error: content filter"
+            else:
+                response = f"Error: bad request - {error_msg}"
+            logger.error(f"Bad request error (generic handler): {error_msg}")
+            return {
+                "response": response,
+                "prompt_tokens": prompt_token,
+                "completion_tokens": completion_token,
+                "time_taken": t1 - t0
+            }
         if hasattr(e, 'code'):
             logger.error(
                     f"Error processing query: {e.code}") # type: ignore
@@ -218,11 +256,10 @@ def query_request_ai_foundry(client, model, prompt, temperature=1.0, timeout=90)
                 }
         raise e
     
-def create_query_funtion_openai(endpoint, model, api_key, api_version):
+def create_query_funtion_openai(endpoint, model, api_key, api_version=None):
     def query(prompt, temperature):
         client = OpenAI(
-            api_base=endpoint,
-            api_version=api_version,
+            base_url=endpoint,
             api_key=api_key
         )
         return query_request(client, model, prompt, temperature)
@@ -469,7 +506,7 @@ if __name__ == "__main__":
     parser_openai = subparsers.add_parser("openai", help="OpenAI API provider")
     parser_openai.add_argument("--endpoint", type=str, help="OpenAI API endpoint", required=True)
     parser_openai.add_argument("--api_key", type=str, help="OpenAI API key", required=True)
-    parser_openai.add_argument("--api_version", type=str, help="OpenAI API version", required=True)
+    parser_openai.add_argument("--api_version", type=str, help="OpenAI API version", default=None)
     parser_openai.add_argument("--model", type=str, help="OpenAI model name", required=True)
 
     parser_azure_openai = subparsers.add_parser("azure_openai", help="Azure OpenAI API provider")

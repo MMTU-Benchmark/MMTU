@@ -1,0 +1,34 @@
+experiment:
+  name: llada-8b-full
+  seed: 42
+  phase: full
+  tags: [full, diffusion, 8b, random, semi-ar, dp]
+
+model:
+  backend: llada-dp
+  model_path: GSAI-ML/LLaDA-8B-Instruct
+  alias: LLaDA-8B-Instruct
+  dtype: bfloat16
+
+inference:
+  max_input_tokens: 3566  # 4096 - 530 (512 output + buffer)
+  max_output_tokens: 512
+  temperature: 0.0
+  # LLaDA-specific
+  steps: 256              # 512 / 2
+  block_length: 64        # semi-autoregressive block size
+  remasking: random
+  cfg_scale: 0.0
+  batch_size: 16
+
+dataset:
+  name: MMTU-benchmark/MMTU
+  split: train
+  samples_per_task: 25
+  tasks:
+    - Data-transform-reshape
+    - Formula-prediction-context
+    - semantic-transform
+    - Arithmetic-Relationship
+    - Functional-Dependency
+    - String-Relationship

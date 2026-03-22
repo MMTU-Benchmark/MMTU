@@ -1,0 +1,50 @@
+experiment:
+  name: qwen2.5-14b-full-colperm
+  seed: 42
+  tags: [full, colperm, decoder-only, 14b, vllm]
+
+model:
+  backend: qwen
+  model_path: Qwen/Qwen2.5-14B-Instruct
+  alias: Qwen2.5-14B-Instruct
+
+inference:
+  max_input_tokens: 3566
+  max_output_tokens: 512
+  temperature: 0.0
+  batch_size: 16
+  vllm:
+    base_url: http://localhost:8000/v1
+    api_key: EMPTY
+
+permutation:
+  shuffle_columns: true
+  shuffle_rows: false
+  seed: 42
+
+dataset:
+  name: MMTU-benchmark/MMTU
+  split: train
+  samples_per_task: 8
+  tasks:
+    - Table-QA
+    - Table-Fact-Verification
+    - Error-Detect
+    - Entity-Matching
+    - Table-needle-in-a-haystack
+    - Table-Locate-by-Row-Col
+    - Schema-Matching
+    - Data-transform-reshape
+    - Data-Imputation
+    - List-to-table
+    - Formula-prediction-context
+    - semantic-transform
+    - semantic-join
+    - header-value-matching
+    - Arithmetic-Relationship
+    - Functional-Dependency
+    - String-Relationship
+    - Cell-entity-annotation
+    - Column-type-annotation
+    - Columns-property-anotation
+    - equi-join-detect

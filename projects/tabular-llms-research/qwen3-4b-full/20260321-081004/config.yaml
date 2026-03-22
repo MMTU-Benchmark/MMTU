@@ -1,0 +1,45 @@
+experiment:
+  name: qwen3-4b-full
+  seed: 42
+  tags: [full, baseline, decoder-only, 4b, vllm]
+
+model:
+  backend: qwen3
+  model_path: Qwen/Qwen3-4B
+  alias: Qwen3-4B
+
+inference:
+  max_input_tokens: 3566
+  max_output_tokens: 512
+  temperature: 0.0
+  batch_size: 16
+  vllm:
+    base_url: http://localhost:8000/v1
+    api_key: EMPTY
+
+dataset:
+  name: MMTU-benchmark/MMTU
+  split: train
+  samples_per_task: 8  # ~8 x 21 tasks ≈ 168, closest to 150 balanced
+  tasks:
+    - Table-QA
+    - Table-Fact-Verification
+    - Error-Detect
+    - Entity-Matching
+    - Table-needle-in-a-haystack
+    - Table-Locate-by-Row-Col
+    - Schema-Matching
+    - Data-transform-reshape
+    - Data-Imputation
+    - List-to-table
+    - Formula-prediction-context
+    - semantic-transform
+    - semantic-join
+    - header-value-matching
+    - Arithmetic-Relationship
+    - Functional-Dependency
+    - String-Relationship
+    - Cell-entity-annotation
+    - Column-type-annotation
+    - Columns-property-anotation
+    - equi-join-detect

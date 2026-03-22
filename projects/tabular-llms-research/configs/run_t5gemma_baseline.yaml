@@ -1,0 +1,18 @@
+experiment:
+  name: encoder_vs_decoder_baseline
+  purpose: "Baseline comparison of Qwen2.5-14B (decoder) vs T5Gemma-9B (enc-dec) on MMTU"
+  tags: [baseline, 9b, encoder-decoder]
+
+data:
+  artifact_path: artifacts/datasets/baseline_150_samples.jsonl
+
+model:
+  backend: t5gemma
+  model_path: google/t5gemma-9b-9b-ul2-it
+  alias: t5gemma-9b-9b-ul2-it
+  dtype: bfloat16
+
+inference:
+  max_output_tokens: 512
+  temperature: 0.0
+  batch_size: 16

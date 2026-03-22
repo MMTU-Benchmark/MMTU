@@ -1,0 +1,43 @@
+experiment:
+  name: t5gemma-9b-full
+  seed: 42
+  tags: [full, baseline, encoder-decoder, 9b-9b, huggingface]
+
+model:
+  backend: t5gemma
+  model_path: google/t5gemma-9b-9b-ul2-it
+  alias: t5gemma-9b-9b-ul2-it
+  dtype: bfloat16
+
+inference:
+  max_input_tokens: 3566
+  max_output_tokens: 512
+  temperature: 0.0
+  batch_size: 16
+
+dataset:
+  name: MMTU-benchmark/MMTU
+  split: train
+  samples_per_task: 8
+  tasks:
+    - Table-QA
+    - Table-Fact-Verification
+    - Error-Detect
+    - Entity-Matching
+    - Table-needle-in-a-haystack
+    - Table-Locate-by-Row-Col
+    - Schema-Matching
+    - Data-transform-reshape
+    - Data-Imputation
+    - List-to-table
+    - Formula-prediction-context
+    - semantic-transform
+    - semantic-join
+    - header-value-matching
+    - Arithmetic-Relationship
+    - Functional-Dependency
+    - String-Relationship
+    - Cell-entity-annotation
+    - Column-type-annotation
+    - Columns-property-anotation
+    - equi-join-detect

@@ -1,0 +1,27 @@
+experiment:
+  name: qwen-7b-smoke
+  seed: 42
+  phase: smoke
+  tags: [smoke, autoregressive, 7b]
+
+model:
+  backend: qwen
+  model_path: Qwen/Qwen2.5-7B-Instruct
+  alias: Qwen2_5-7B-Instruct
+
+inference:
+  max_input_tokens: 3584
+  max_output_tokens: 512
+  temperature: 0.0
+  batch_size: 8
+  # vLLM server settings
+  vllm:
+    base_url: http://localhost:8000/v1
+    api_key: EMPTY
+
+dataset:
+  name: MMTU-benchmark/MMTU
+  split: train
+  tasks:
+    - Entity-Matching
+  samples_per_task: 5

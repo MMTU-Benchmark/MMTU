@@ -1,0 +1,31 @@
+experiment:
+  name: deepseek-v3-full
+  seed: 42
+  phase: full
+  tags: [full, autoregressive, deepseek, api]
+
+model:
+  backend: deepseek
+  model_path: deepseek/deepseek-chat  # OpenRouter model ID
+  alias: DeepSeek-V3
+
+inference:
+  max_input_tokens: 3566  # 4096 - 530 (512 output + buffer)
+  max_output_tokens: 512
+  temperature: 0.0
+  batch_size: 8
+  api:
+    base_url: https://openrouter.ai/api/v1
+    # api_key: set via OPENROUTER_API_KEY env var
+
+dataset:
+  name: MMTU-benchmark/MMTU
+  split: train
+  samples_per_task: 25
+  tasks:
+    - Data-transform-reshape
+    - Formula-prediction-context
+    - semantic-transform
+    - Arithmetic-Relationship
+    - Functional-Dependency
+    - String-Relationship

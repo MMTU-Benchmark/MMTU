@@ -1,0 +1,6 @@
+{
+  "experiment_name": "t5gemma-9b-full",
+  "git_sha": "unknown",
+  "timestamp": "2026-03-21T10:23:25.867245+00:00",
+  "config_path": "configs/t5gemma-9b-full.yaml"
+}

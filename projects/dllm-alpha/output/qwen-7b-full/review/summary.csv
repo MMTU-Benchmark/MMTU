@@ -1,0 +1,7 @@
+task,metric,num_samples,mean_precision,mean_recall,mean_score
+Arithmetic-Relationship,f1,25,0.0000,0.0000,0.0000
+Data-transform-reshape,acc,25,,,0.1200
+Formula-prediction-context,acc,25,,,0.0000
+Functional-Dependency,f1,25,0.8096,0.5647,0.6653
+String-Relationship,f1,4,0.0000,0.0000,0.0000
+semantic-transform,acc,25,,,0.4640

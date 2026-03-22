@@ -1,0 +1,6 @@
+{
+  "experiment_name": "qwen3-4b-full",
+  "git_sha": "unknown",
+  "timestamp": "2026-03-21T08:10:04.326760+00:00",
+  "config_path": "configs/qwen3-4b-full.yaml"
+}

@@ -1,0 +1,38 @@
+experiment:
+  name: llada-8b-baseline
+  seed: 42
+  phase: baseline
+  tags: [baseline, diffusion, 8b]
+
+model:
+  backend: llada
+  model_path: GSAI-ML/LLaDA-8B-Instruct
+  alias: LLaDA-8B-Instruct    # sanitized name for evaluate.py filename parsing
+  dtype: bfloat16
+
+inference:
+  max_input_tokens: 3584
+  max_output_tokens: 512
+  temperature: 0.0
+  # LLaDA-specific
+  steps: 256
+  block_length: 32
+  remasking: low_confidence
+  cfg_scale: 0.0
+
+dataset:
+  name: MMTU-benchmark/MMTU
+  split: train
+  tasks:
+    - Entity-Matching
+    - Schema-Matching
+    - Data-Imputation
+    - semantic-transform
+    - List-to-table
+    - Table-Locate-by-Row-Col
+    - Arithmetic-Relationship
+    - Functional-Dependency
+    - String-Relationship
+    - equi-join-detect
+    - semantic-join
+  samples_per_task: 9

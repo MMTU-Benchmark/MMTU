@@ -16,7 +16,6 @@ run_sample200.sh
 *.ipynb
 *.pdf
 *.csv
-*.jsonl
 *.tar.gz
 error_analysis/
 

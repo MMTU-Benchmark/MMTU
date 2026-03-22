@@ -1,0 +1,29 @@
+experiment:
+  name: llada-8b-smoke-random
+  seed: 42
+  phase: smoke
+  tags: [smoke, diffusion, 8b, random-remasking]
+
+model:
+  backend: llada
+  model_path: GSAI-ML/LLaDA-8B-Instruct
+  alias: LLaDA-8B-Instruct
+  dtype: bfloat16
+
+inference:
+  max_input_tokens: 3584
+  max_output_tokens: 512
+  temperature: 0.0
+  # LLaDA-specific
+  steps: 256
+  block_length: 32
+  remasking: random
+  cfg_scale: 0.0
+  batch_size: 8
+
+dataset:
+  name: MMTU-benchmark/MMTU
+  split: train
+  tasks:
+    - Entity-Matching
+  samples_per_task: 5

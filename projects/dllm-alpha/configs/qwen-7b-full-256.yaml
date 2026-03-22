@@ -1,0 +1,32 @@
+experiment:
+  name: qwen-7b-full-256
+  seed: 42
+  phase: full
+  tags: [full, autoregressive, 7b, vllm, short-output]
+
+model:
+  backend: qwen
+  model_path: Qwen/Qwen2.5-7B-Instruct
+  alias: Qwen2_5-7B-Instruct
+
+inference:
+  max_input_tokens: 3822  # 4096 - 274 (256 output + buffer)
+  max_output_tokens: 256
+  temperature: 0.0
+  batch_size: 16
+  # vLLM server settings (launch with --tensor-parallel-size 4)
+  vllm:
+    base_url: http://localhost:8000/v1
+    api_key: EMPTY
+
+dataset:
+  name: MMTU-benchmark/MMTU
+  split: train
+  samples_per_task: 25
+  tasks:
+    - Data-transform-reshape
+    - Formula-prediction-context
+    - semantic-transform
+    - Arithmetic-Relationship
+    - Functional-Dependency
+    - String-Relationship

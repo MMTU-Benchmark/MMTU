@@ -1,0 +1,20 @@
+experiment:
+  name: encoder_vs_decoder_baseline
+  purpose: "Baseline comparison of Qwen2.5-14B (decoder) vs T5Gemma-9B (enc-dec) on MMTU"
+  tags: [baseline, 14b, decoder-only]
+
+data:
+  artifact_path: artifacts/datasets/baseline_150_samples.jsonl
+
+model:
+  backend: qwen
+  model_path: Qwen/Qwen2.5-14B-Instruct
+  alias: Qwen2.5-14B-Instruct
+
+inference:
+  max_output_tokens: 512
+  temperature: 0.0
+  batch_size: 16
+  vllm:
+    base_url: http://localhost:8000/v1
+    api_key: EMPTY
